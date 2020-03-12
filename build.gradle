@@ -1,0 +1,42 @@
+plugins {
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '2.0.4'
+}
+
+ext.minecraftVersion = "1.15.2"
+
+String majorVersion = 1
+String minorVersion = 0
+
+String buildNumber = System.getenv("BUILD_NUMBER") == null ? "0"             : System.getenv("BUILD_NUMBER")
+
+version =
+        ext.version = "$majorVersion.$minorVersion-$buildNumber"
+
+
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { name 'Spigot'; url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+    maven { name 'Sonatype'; url 'https://oss.sonatype.org/content/groups/public' }
+    maven { name 'sk89q'; url 'http://maven.sk89q.com/artifactory/repo/' }
+    maven { name 'vault-repo'; url 'https://jitpack.io' }
+    maven { name 'NyaaCat'; url 'https://ci.nyaacat.com/maven/' }
+    maven { name 'EssentialsX'; url 'https://ci.ender.zone/plugin/repository/everything' }
+    maven { name 'aikar';     url 'https://repo.aikar.co/content/groups/aikar/' }
+}
+
+dependencies {
+    api "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
+    api "cat.nyaa:nyaacore:7.1-SNAPSHOT"
+    api 'com.squareup.okhttp3:okhttp:4.4.0'
+    shadow 'com.squareup.okhttp3:okhttp:4.4.0'
+}
+
+build{
+    shadowJar
+}
+
+shadowJar{
+    archiveName = "ROTA-${version}-shadowed.jar"
+}
