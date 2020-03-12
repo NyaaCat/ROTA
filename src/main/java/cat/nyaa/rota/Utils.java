@@ -15,7 +15,7 @@ public class Utils {
         PlayerStatusMonitor.PlayerStatus status = PlayerStatusMonitor.getStatus(player);
         remindMessage = new TextComponent(I18n.format("remind_message"));
         new Message("").append(getRemindMessage()).send(player, ROTAPlugin.plugin.configMain.notifyMethod);
-        TextComponent ignoreButton = Utils.ignoreButton;
+        TextComponent ignoreButton = new TextComponent(I18n.format("ignore_button"));
         ignoreButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(I18n.format("ignore_hint"))}));
         ignoreButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rota ignore"));
         new Message("").append(ignoreButton).send(player, Message.MessageType.CHAT);
