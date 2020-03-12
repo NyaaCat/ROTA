@@ -75,8 +75,7 @@ public class AdminCommands extends CommandReceiver {
         new Message("").append(I18n.format("ignore_success")).send(player);
     }
 
-
-        public List<String> optionCompleter(CommandSender sender, Arguments arguments) {
+    public List<String> optionCompleter(CommandSender sender, Arguments arguments) {
         List<String> completeStr = new ArrayList<>();
         String next = arguments.top();
         if (next != null && next.equals("resource")) {

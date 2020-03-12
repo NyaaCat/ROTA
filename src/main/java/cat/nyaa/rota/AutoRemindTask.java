@@ -9,6 +9,7 @@ import java.util.List;
 public class AutoRemindTask extends BukkitRunnable {
     @Override
     public void run() {
+        if (!ROTAPlugin.plugin.configMain.enabled) return;
         if (!ROTAPlugin.plugin.configMain.notify) return;
 
         List<String> enabledWorld = ROTAPlugin.plugin.configMain.enabledWorld;

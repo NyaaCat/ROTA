@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import static cat.nyaa.rota.Utils.remindPlayer;
 
@@ -18,7 +19,8 @@ public class Events implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChangeWOrld(PlayerChangedWorldEvent event){
+    public void onPlayerChangeWorld(PlayerChangedWorldEvent event){
+        if (!ROTAPlugin.plugin.configMain.enabled) return;
         Player player = event.getPlayer();
         World world = player.getWorld();
         if (!plugin.configMain.enabledWorld.contains(world.getName())){
@@ -29,11 +31,13 @@ public class Events implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
-        World world = event.getPlayer().getWorld();
-        if (!plugin.configMain.enabledWorld.contains(world.getName())){
-            return;
-        }
+        if (!ROTAPlugin.plugin.configMain.enabled) return;
         remindPlayer(event.getPlayer());
     }
 
+    @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event){
+        if (!ROTAPlugin.plugin.configMain.enabled) return;
+        PlayerStatusMonitor.setStatus(event.getPlayer(), PlayerStatusMonitor.PlayerStatus.UNKNOWN);
+    }
 }
