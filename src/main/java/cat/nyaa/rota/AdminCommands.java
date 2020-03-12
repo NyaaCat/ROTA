@@ -92,8 +92,7 @@ public class AdminCommands extends CommandReceiver {
         if (url == null) {
             File latest = DownloadUtils.getLatest();
             if (latest == null){
-                msg(sender, "res.not_available" +
-                        "");
+                msg(sender, "res.not_available");
                 return;
             }
             sendInfo(sender, latest);
