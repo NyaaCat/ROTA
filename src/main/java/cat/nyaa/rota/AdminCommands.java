@@ -289,11 +289,7 @@ public class AdminCommands extends CommandReceiver {
     @SubCommand(value = "accept", permission = "rota.accept")
     public void onAccept(CommandSender sender, Arguments arguments) {
         Player player = asPlayer(sender);
-        ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
-        String url = resourceConfig.url;
-        String sha1Str = resourceConfig.sha1;
-        byte[] sha1 = Base64.getDecoder().decode(sha1Str);
-        player.setResourcePack(url, sha1);
+        Utils.pushResourcePack(player);
     }
 
     @SubCommand(value = "reload", permission = "rota.admin")

@@ -1,11 +1,14 @@
 package cat.nyaa.rota;
 
 import cat.nyaa.nyaacore.Message;
+import cat.nyaa.rota.config.ResourceConfig;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
+
+import java.util.Base64;
 
 import static org.bukkit.util.NumberConversions.toByte;
 
@@ -20,6 +23,15 @@ public class Utils {
         ignoreButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rota ignore"));
         new Message("").append(ignoreButton).send(player, Message.MessageType.CHAT);
     }
+
+    public static void pushResourcePack(Player player){
+        ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
+        String url = resourceConfig.url;
+        String sha1Str = resourceConfig.sha1;
+        byte[] sha1 = Base64.getDecoder().decode(sha1Str);
+        player.setResourcePack(url, sha1);
+    }
+
     static TextComponent remindMessage = new TextComponent(I18n.format("remind_message"));
     static TextComponent ignoreButton = new TextComponent(I18n.format("ignore_button"));
 

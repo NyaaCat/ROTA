@@ -13,6 +13,7 @@ public class ROTAPlugin extends JavaPlugin {
     AdminCommands adminCommands;
     PlayerStatusMonitor playerStatusMonitor;
     AutoRemindTask autoRemindTask;
+    Events events;
 
     @Override
     public void onEnable() {
@@ -26,8 +27,10 @@ public class ROTAPlugin extends JavaPlugin {
         i18n.setLanguage(configMain.language);
         adminCommands = new AdminCommands(this, i18n);
         playerStatusMonitor = new PlayerStatusMonitor();
+        events = new Events(this);
         getServer().getPluginCommand("rota").setExecutor(adminCommands);
         getServer().getPluginManager().registerEvents(playerStatusMonitor, this);
+        getServer().getPluginManager().registerEvents(events, this);
         DownloadUtils.init(this);
         autoRemindTask = new AutoRemindTask();
         autoRemindTask.runTaskTimer(this, configMain.notifyInterval, configMain.notifyInterval);
