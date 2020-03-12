@@ -107,7 +107,7 @@ public class AdminCommands extends CommandReceiver {
                         try {
                             ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
                             resourceConfig.url = url;
-                            resourceConfig.sha1 = Utils.toHexString(getSha1(input));
+                            resourceConfig.sha1 = Base64.getEncoder().encodeToString(getSha1(input));
                             ROTAPlugin.plugin.configMain.save();
                         } catch (NoSuchAlgorithmException | IOException e) {
                             e.printStackTrace();
@@ -191,7 +191,7 @@ public class AdminCommands extends CommandReceiver {
         ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
         String url = resourceConfig.url;
         String sha1Str = resourceConfig.sha1;
-        byte[] sha1 = Utils.fromHexString(sha1Str);
+        byte[] sha1 = Base64.getDecoder().decode(sha1Str);
         if (!validate(DownloadUtils.getLatest(), sha1Str)){
             startDownloadTask(sender, url).async((input) -> {
                 if (validate(input, resourceConfig.sha1)){
@@ -293,7 +293,7 @@ public class AdminCommands extends CommandReceiver {
         ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
         String url = resourceConfig.url;
         String sha1Str = resourceConfig.sha1;
-        byte[] sha1 = Utils.fromHexString(sha1Str);
+        byte[] sha1 = Base64.getDecoder().decode(sha1Str);
         player.setResourcePack(url, sha1);
     }
 
