@@ -1,0 +1,9 @@
+res:
+  bad_pack: "invalid resource pack %s, please check"
+  http_fail: "http failed, please retry"
+ignore_button: "click to ignore resource pack auto remind."
+ignore_success: "ignore success"
+remind_message: "&anew recommend resource pack, click to update"
+message:
+  error:
+    legacy_name: "legacy material name"

@@ -19,3 +19,6 @@ permissions:
   rota.admin:
     default: op
     description: 'admin permission for ROTA plugin'
+  rota.accept:
+    default: true
+    description: 'allow player to accept ROTA message.'

@@ -1,8 +1,8 @@
 package cat.nyaa.rota.config;
 
+import cat.nyaa.nyaacore.Message.MessageType;
 import cat.nyaa.nyaacore.configuration.PluginConfigure;
 import cat.nyaa.rota.ROTAPlugin;
-import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -19,10 +19,10 @@ public class ConfigMain extends PluginConfigure {
     public boolean notify = true;
 
     @Serializable(name = "notify_interval")
-    public int notifyInterval = 20;
+    public int notifyInterval = 400;
 
     @Serializable(name = "notify_method")
-    public NotifyMethod notifyMethod = NotifyMethod.TITLE;
+    public MessageType notifyMethod = MessageType.CHAT;
 
     @Serializable
     public boolean force = false;

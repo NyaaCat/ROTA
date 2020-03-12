@@ -15,6 +15,7 @@ import cat.nyaa.rota.utils.MaterialUtils;
 import co.aikar.taskchain.BukkitTaskChainFactory;
 import co.aikar.taskchain.TaskChain;
 import com.google.gson.Gson;
+import com.sun.xml.internal.ws.api.model.MEP;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -57,8 +58,9 @@ public class AdminCommands extends CommandReceiver {
 
     @SubCommand(value = "option", permission = "rota.admin", tabCompleter = "optionCompleter")
     public void onOption(CommandSender sender, Arguments arguments) {
-        String next = arguments.next();
-        if (next.equals("resource")) {
+        String next = arguments.top();
+        if (next != null && next.equals("resource")) {
+            arguments.next();
             Class<? extends ISerializable> resourceConfigClass = ResourceConfig.class;
             setProperty(sender, resourceConfigClass, ROTAPlugin.plugin.configMain.resourceConfig, arguments);
             msg(sender, "option.set.successful");
@@ -68,7 +70,15 @@ public class AdminCommands extends CommandReceiver {
         msg(sender, "option.set.successful");
     }
 
-    public List<String> optionCompleter(CommandSender sender, Arguments arguments) {
+    @SubCommand(value = "ignore", permission = "rota.accept")
+    public void onIgnore(CommandSender sender, Arguments arguments) {
+        Player player = asPlayer(sender);
+        PlayerStatusMonitor.setStatus(player, PlayerStatusMonitor.PlayerStatus.SUCCESSFULLY_LOADED);
+        new Message("").append(I18n.format("ignore_success")).send(player);
+    }
+
+
+        public List<String> optionCompleter(CommandSender sender, Arguments arguments) {
         List<String> completeStr = new ArrayList<>();
         String next = arguments.top();
         if (next != null && next.equals("resource")) {
@@ -100,7 +110,7 @@ public class AdminCommands extends CommandReceiver {
                         try {
                             ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
                             resourceConfig.url = url;
-                            resourceConfig.sha1  = Base64.getEncoder().encodeToString(getSha1(input));
+                            resourceConfig.sha1 = Utils.toHexString(getSha1(input));
                             ROTAPlugin.plugin.configMain.save();
                         } catch (NoSuchAlgorithmException | IOException e) {
                             e.printStackTrace();
@@ -184,7 +194,7 @@ public class AdminCommands extends CommandReceiver {
         ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
         String url = resourceConfig.url;
         String sha1Str = resourceConfig.sha1;
-        byte[] sha1 = Base64.getDecoder().decode(sha1Str);
+        byte[] sha1 = Utils.fromHexString(sha1Str);
         if (!validate(DownloadUtils.getLatest(), sha1Str)){
             startDownloadTask(sender, url).async((input) -> {
                 if (validate(input, resourceConfig.sha1)){
@@ -202,7 +212,7 @@ public class AdminCommands extends CommandReceiver {
             World world = Bukkit.getWorld(s);
             if (world != null){
                 world.getPlayers().forEach(player -> {
-                    player.setResourcePack(url, sha1);
+                    Utils.remindPlayer(player);
                 });
             }
         }
@@ -270,6 +280,21 @@ public class AdminCommands extends CommandReceiver {
         ROTAPlugin.plugin.configMain.enabledWorld.remove(world.getName());
         ROTAPlugin.plugin.configMain.save();
         msg(sender, "disabled.world", world.getName());
+    }
+
+    @SubCommand(value = "accept", permission = "rota.accept")
+    public void onAccept(CommandSender sender, Arguments arguments) {
+        Player player = asPlayer(sender);
+        ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
+        String url = resourceConfig.url;
+        String sha1Str = resourceConfig.sha1;
+        byte[] sha1 = Utils.fromHexString(sha1Str);
+        player.setResourcePack(url, sha1);
+    }
+
+    @SubCommand(value = "reload", permission = "rota.admin")
+    public void onReload(CommandSender sender, Arguments arguments){
+        ROTAPlugin.plugin.onReload();
     }
 
     private void setProperty(CommandSender sender, Class<? extends ISerializable> configClass, ISerializable resourceConfig, Arguments arguments) {

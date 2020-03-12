@@ -21,6 +21,10 @@ public class PlayerStatusMonitor implements Listener {
         return statusMap.computeIfAbsent(uniqueId, uuid -> PlayerStatus.UNKNOWN);
     }
 
+    public static void setStatus(Player player, PlayerStatus successfullyLoaded) {
+        statusMap.put(player.getUniqueId(), successfullyLoaded);
+    }
+
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onStatusChange(PlayerResourcePackStatusEvent event){
         statusMap.put(event.getPlayer().getUniqueId(), PlayerStatus.valueOf(event.getStatus().name()));

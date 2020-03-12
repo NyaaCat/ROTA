@@ -1,0 +1,9 @@
+res:
+  bad_pack: "资源包 %s 无效，请检查"
+  http_fail: "http错误，请重试"
+ignore_button: "点击屏蔽资源包自动推送"
+ignore_success: "成功屏蔽自动提示信息"
+remind_message: "有推荐的资源包可用，点击更新"
+message:
+  error:
+    legacy_name: "legacy material name"
