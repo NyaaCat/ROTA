@@ -17,7 +17,7 @@ public class AutoRemindTask extends BukkitRunnable {
             if (world != null){
                 world.getPlayers().forEach(player -> {
                     PlayerStatusMonitor.PlayerStatus status = PlayerStatusMonitor.getStatus(player);
-                    if (status.equals(PlayerStatusMonitor.PlayerStatus.SUCCESSFULLY_LOADED)) return;
+                    if (status.equals(PlayerStatusMonitor.PlayerStatus.SUCCESSFULLY_LOADED) || status.equals(PlayerStatusMonitor.PlayerStatus.ACCEPTED)) return;
                     Utils.remindPlayer(player);
                 });
             }

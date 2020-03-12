@@ -1,6 +1,7 @@
 res:
   bad_pack: "资源包 %s 无效，请检查"
   http_fail: "http错误，请重试"
+  not_available: 'no valid local cache found'
 ignore_button: "点击屏蔽资源包自动推送"
 ignore_success: "成功屏蔽自动提示信息"
 remind_message: "有推荐的资源包可用，点击更新"
@@ -10,3 +11,24 @@ ignore_hint: '点击忽略'
 message:
   error:
     legacy_name: "legacy material name"
+
+
+disabled:
+  global: '全局关闭'
+  world: '已在世界 %s 禁用'
+error:
+  invalid_world: '未知世界 %s'
+enabled:
+  world: '已在世界 %s 启用'
+  global: '已启用插件'
+update:
+  out_dated: '插件信息已过期'
+download:
+  sha1_failed: 'SHA1验证失败'
+  complete: '下载完成'
+status: '玩家 %s, 状态: %s'
+meta:
+  info: '版本: %s\n描述: %s\nSHA1: %s'
+option:
+  set:
+    successful: '设置成功'

@@ -1,6 +1,7 @@
 res:
   bad_pack: "invalid resource pack %s, please check"
   http_fail: "http failed, please retry"
+  not_available: 'no valid local cache found'
 ignore_button: "click to ignore resource pack auto remind."
 ignore_success: "ignore success"
 remind_message: "&anew recommend resource pack, click to update"
@@ -10,3 +11,23 @@ ignore_hint: 'click to ignore'
 message:
   error:
     legacy_name: "legacy material name"
+
+disabled:
+  global: 'disabled globally'
+  world: 'disabled in world %s'
+error:
+  invalid_world: 'invalid world %s'
+enabled:
+  world: 'enabled in world %s'
+  global: 'enabled globally'
+update:
+  out_dated: 'local cache is out of date'
+download:
+  sha1_failed: 'sha1 verification failed'
+  complete: 'download complete'
+status: 'player %s, status: %s'
+meta:
+  info: 'version: %s\ndescription: %s\nshaStr: %s'
+option:
+  set:
+    successful: 'option set successfully'
