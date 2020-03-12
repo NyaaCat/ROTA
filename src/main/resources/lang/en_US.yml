@@ -4,6 +4,9 @@ res:
 ignore_button: "click to ignore resource pack auto remind."
 ignore_success: "ignore success"
 remind_message: "&anew recommend resource pack, click to update"
+remind_hint: 'click to accept'
+ignore_hint: 'click to ignore'
+
 message:
   error:
     legacy_name: "legacy material name"

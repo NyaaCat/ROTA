@@ -63,6 +63,8 @@ public class AdminCommands extends CommandReceiver {
         }
         Class<? extends ISerializable> resourceConfigClass = ConfigMain.class;
         setProperty(sender, resourceConfigClass, ROTAPlugin.plugin.configMain, arguments);
+        ROTAPlugin.plugin.configMain.save();
+        ROTAPlugin.plugin.onReload();
         msg(sender, "option.set.successful");
     }
 

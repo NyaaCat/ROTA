@@ -1,7 +1,7 @@
 language: en_US
 notify: true
-notifyInteval: 20
-notifyMethod: TITLE
+notify_interval: 400
+notify_method: CHAT
 force: false
 force_timeout: 1200
 force_command: 'kick {player} Please enable server resource pack!'

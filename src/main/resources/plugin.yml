@@ -11,11 +11,14 @@ api-version: 1.13
 commands:
   rota:
     description: 'rota plugin admin command'
-    permission: rota.admin
+    permission: rota
     permission-message: "You do not have the required permission: <permission>"
     usage: "/<command> [SubCommand...] [Arguments...] or /<command> help"
 
 permissions:
+  rota:
+    default: true
+    description: 'root permission'
   rota.admin:
     default: op
     description: 'admin permission for ROTA plugin'
