@@ -277,6 +277,14 @@ public class AdminCommands extends CommandReceiver {
         msg(sender, "disabled.world", world.getName());
     }
 
+    public List<String> enableCompleter(CommandSender sender, Arguments arguments) {
+        List<String> completeStr = new ArrayList<>();
+        switch (arguments.remains()) {
+            case 1:
+                break;
+        }
+        return filtered(arguments, completeStr);
+    }
     @SubCommand(value = "accept", permission = "rota.accept")
     public void onAccept(CommandSender sender, Arguments arguments) {
         Player player = asPlayer(sender);
