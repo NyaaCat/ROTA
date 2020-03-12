@@ -17,17 +17,20 @@ disabled:
   world: 'disabled in world %s'
 error:
   invalid_world: 'invalid world %s'
+  invalid_url: 'invalid url %s'
 enabled:
   world: 'enabled in world %s'
   global: 'enabled globally'
 update:
   out_dated: 'local cache is out of date'
 download:
+  started: 'started download'
+  no_update: 'current version is up to date.'
   sha1_failed: 'sha1 verification failed'
   complete: 'download complete'
 status: 'player %s, status: %s'
 meta:
-  info: 'version: %s\ndescription: %s\nshaStr: %s'
+  info: 'version: %s description: %s shaStr: %s'
 option:
   set:
     successful: 'option set successfully'

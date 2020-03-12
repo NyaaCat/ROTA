@@ -6,7 +6,9 @@ import cat.nyaa.rota.ROTAPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ConfigMain extends PluginConfigure {
     @Serializable
@@ -34,8 +36,12 @@ public class ConfigMain extends PluginConfigure {
     public String forceCommand = "kick {player} Please enable server resource pack!";
 
     @Serializable
-    public
-    List<String> enabledWorld = new ArrayList<>();
+    public List<String> enabledWorld = new ArrayList<>();
+
+    @Serializable
+    public boolean autoUpdate = true;
+    @Serializable
+    public int autoUpdateInteval = 3600 * 20;
 
     @StandaloneConfig
     public ResourceConfig resourceConfig = new ResourceConfig();

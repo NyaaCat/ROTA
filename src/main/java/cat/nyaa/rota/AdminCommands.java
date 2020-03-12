@@ -38,6 +38,8 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static cat.nyaa.rota.Utils.getSha1;
+
 public class AdminCommands extends CommandReceiver {
     private final Plugin plugin;
     private final ILocalizer i18n;
@@ -98,7 +100,8 @@ public class AdminCommands extends CommandReceiver {
             }
             sendInfo(sender, latest);
         } else {
-            startDownloadTask(sender, url).async(input -> {
+            msg(sender, "download_start");
+            Utils.startDownloadTask(sender, url).async(input -> {
                 sendInfo(sender, input);
                 return input;
             })
@@ -128,12 +131,16 @@ public class AdminCommands extends CommandReceiver {
                 return null;
             }
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(zipFile.getInputStream(entry)));
-            String temp = null;
-            StringBuilder sb = new StringBuilder();
-            while ((temp = bufferedReader.readLine()) != null) {
-                sb.append(temp);
+            try {
+                String temp = null;
+                StringBuilder sb = new StringBuilder();
+                while ((temp = bufferedReader.readLine()) != null) {
+                    sb.append(temp);
+                }
+                packMeta = new Gson().fromJson(sb.toString(), PackMeta.class);
+            }finally {
+                bufferedReader.close();
             }
-            packMeta = new Gson().fromJson(sb.toString(), PackMeta.class);
         } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -165,17 +172,6 @@ public class AdminCommands extends CommandReceiver {
         return null;
     }
 
-    private byte[] getSha1(File input) throws NoSuchAlgorithmException, IOException {
-        FileInputStream fileInputStream = new FileInputStream(input);
-        MessageDigest instance = MessageDigest.getInstance("SHA-1");
-        byte[] buff = new byte[1024];
-        int len = 0;
-        while ((len = fileInputStream.read(buff)) != -1) {
-            instance.update(buff, 0, len);
-        }
-        return instance.digest();
-    }
-
     @SubCommand(value = "status", permission = "rota.admin")
     public void onStatus(CommandSender sender, Arguments arguments) {
         Player player = arguments.nextPlayerOrSender();
@@ -185,57 +181,7 @@ public class AdminCommands extends CommandReceiver {
 
     @SubCommand(value = "update", permission = "rota.admin")
     public void onUpdate(CommandSender sender, Arguments arguments) {
-        List<String> enabledWorld = ROTAPlugin.plugin.configMain.enabledWorld;
-
-        ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
-        String url = resourceConfig.url;
-        String sha1Str = resourceConfig.sha1;
-        byte[] sha1 = Base64.getDecoder().decode(sha1Str);
-        if (!validate(DownloadUtils.getLatest(), sha1Str)){
-            startDownloadTask(sender, url).async((input) -> {
-                if (validate(input, resourceConfig.sha1)){
-                    msg(sender, "download.complete");
-                }else {
-                    msg(sender, "download.sha1_failed");
-                }
-                return null;
-            });
-            msg(sender, "update.out_dated");
-            return;
-        }
-
-        for (String s : enabledWorld) {
-            World world = Bukkit.getWorld(s);
-            if (world != null){
-                world.getPlayers().forEach(player -> {
-                    Utils.remindPlayer(player);
-                });
-            }
-        }
-    }
-
-    private TaskChain<File> startDownloadTask(CommandSender sender, String url) {
-        return BukkitTaskChainFactory.create(ROTAPlugin.plugin).newChain()
-                .async(input -> {
-                    String fileName = url.substring(url.lastIndexOf("/"));
-                    try {
-                        return DownloadUtils.download(url, fileName);
-                    } catch (IOException e) {
-                        new Message(I18n.format("res.http_fail")).send(sender);
-                        e.printStackTrace();
-                        return null;
-                    }
-                })
-                .abortIf(Objects::isNull);
-    }
-
-    private boolean validate(File latest, String sha1) {
-        try {
-            return Base64.getEncoder().encodeToString(getSha1(latest)).equals(sha1);
-        } catch (NoSuchAlgorithmException | IOException e) {
-            e.printStackTrace();
-        }
-        return false;
+        Utils.doUpdate(sender);
     }
 
     @SubCommand(value = "enable", permission = "rota.admin", tabCompleter = "enableCompleter")
@@ -289,6 +235,10 @@ public class AdminCommands extends CommandReceiver {
     @SubCommand(value = "accept", permission = "rota.accept")
     public void onAccept(CommandSender sender, Arguments arguments) {
         Player player = asPlayer(sender);
+        if (!Utils.hasValidPack()) {
+            new Message(I18n.format("error.novalid_pack")).send(sender);
+            return;
+        }
         Utils.pushResourcePack(player);
     }
 

@@ -14,6 +14,7 @@ public class ROTAPlugin extends JavaPlugin {
     PlayerStatusMonitor playerStatusMonitor;
     AutoRemindTask autoRemindTask;
     Events events;
+    private UpgradeTask upgradeTask;
 
     @Override
     public void onEnable() {
@@ -33,16 +34,29 @@ public class ROTAPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(events, this);
         DownloadUtils.init(this);
         autoRemindTask = new AutoRemindTask();
-        autoRemindTask.runTaskTimer(this, configMain.notifyInterval, configMain.notifyInterval);
+        upgradeTask = new UpgradeTask();
+        autoRemindTask.runTaskTimer(this, 0, configMain.notifyInterval);
+        upgradeTask.runTaskTimer(this, 0, configMain.autoUpdateInteval);
     }
 
-    public void onReload(){
+    @Override
+    public void onDisable() {
+        autoRemindTask.cancel();
+        upgradeTask.cancel();
+    }
+
+    public void onReload() {
         configMain = new ConfigMain();
         configMain.load();
         if (autoRemindTask != null) {
             autoRemindTask.cancel();
             autoRemindTask = new AutoRemindTask();
-            autoRemindTask.runTaskTimer(this, configMain.notifyInterval, configMain.notifyInterval);
+            autoRemindTask.runTaskTimer(this, 0, configMain.notifyInterval);
+        }
+        if (upgradeTask != null) {
+            upgradeTask.cancel();
+            upgradeTask = new UpgradeTask();
+            upgradeTask.runTaskTimer(this, 0, configMain.autoUpdateInteval);
         }
         i18n.load();
         i18n.setLanguage(configMain.language);
