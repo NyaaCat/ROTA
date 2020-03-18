@@ -100,7 +100,7 @@ public class AdminCommands extends CommandReceiver {
             }
             sendInfo(sender, latest);
         } else {
-            msg(sender, "download_start");
+            msg(sender, "download.start");
             Utils.startDownloadTask(sender, url).async(input -> {
                 sendInfo(sender, input);
                 return input;
