@@ -247,6 +247,11 @@ public class AdminCommands extends CommandReceiver {
         ROTAPlugin.plugin.onReload();
     }
 
+    @SubCommand(value = "push", permission = "rota.admin")
+    public void onPush(CommandSender sender, Arguments arguments) {
+        Bukkit.getOnlinePlayers().forEach(Utils::pushResourcePack);
+    }
+
     private void setProperty(CommandSender sender, Class<? extends ISerializable> configClass, ISerializable resourceConfig, Arguments arguments) {
         String inst = arguments.nextString();
         String[] split = inst.split(":", 2);
