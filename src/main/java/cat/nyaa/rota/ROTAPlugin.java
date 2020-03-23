@@ -24,8 +24,8 @@ public class ROTAPlugin extends JavaPlugin {
         i18n = new I18n();
 
         configMain.load();
-        i18n.load();
         i18n.setLanguage(configMain.language);
+        i18n.load();
         adminCommands = new AdminCommands(this, i18n);
         playerStatusMonitor = new PlayerStatusMonitor();
         events = new Events(this);

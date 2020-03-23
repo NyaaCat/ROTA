@@ -37,13 +37,18 @@ public class Events implements Listener {
         if (!Utils.hasValidPack()){
             return;
         }
-        new BukkitRunnable(){
+        Player eventPlayer = event.getPlayer();
+        class CheckTask extends BukkitRunnable{
             @Override
             public void run() {
-                event.getPlayer().addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(200,5));
+                if (!eventPlayer.isOnGround()){
+                    new CheckTask().runTaskLater(ROTAPlugin.plugin, 10);
+                    return;
+                }
                 Utils.pushResourcePack(event.getPlayer());
             }
-        }.runTaskLater(ROTAPlugin.plugin, 10);
+        }
+        new CheckTask().runTaskLater(ROTAPlugin.plugin, 10);
 //        Utils.pushResourcePack(event.getPlayer());
     }
 

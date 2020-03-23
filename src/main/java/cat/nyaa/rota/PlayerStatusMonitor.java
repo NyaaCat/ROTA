@@ -5,6 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +29,20 @@ public class PlayerStatusMonitor implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onStatusChange(PlayerResourcePackStatusEvent event){
-        statusMap.put(event.getPlayer().getUniqueId(), PlayerStatus.valueOf(event.getStatus().name()));
+        PlayerResourcePackStatusEvent.Status status = event.getStatus();
+        statusMap.put(event.getPlayer().getUniqueId(), PlayerStatus.valueOf(status.name()));
+        if (status.equals(PlayerResourcePackStatusEvent.Status.ACCEPTED)){
+            event.getPlayer().addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(400,5));
+        }else {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (event.getPlayer().hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)) {
+                        event.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+                    }
+                }
+            }.runTaskLater(ROTAPlugin.plugin, 60);
+        }
     }
 
 

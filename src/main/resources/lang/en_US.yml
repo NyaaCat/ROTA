@@ -24,7 +24,7 @@ enabled:
 update:
   out_dated: 'local cache is out of date'
 download:
-  started: 'started download'
+  start: 'started download'
   no_update: 'current version is up to date.'
   sha1_failed: 'sha1 verification failed'
   complete: 'download complete'
