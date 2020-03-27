@@ -249,7 +249,7 @@ public class AdminCommands extends CommandReceiver {
 
     @SubCommand(value = "push", permission = "rota.admin")
     public void onPush(CommandSender sender, Arguments arguments) {
-        Bukkit.getOnlinePlayers().forEach(Utils::pushResourcePack);
+        Bukkit.getOnlinePlayers().forEach(Utils::remindPlayer);
     }
 
     private void setProperty(CommandSender sender, Class<? extends ISerializable> configClass, ISerializable resourceConfig, Arguments arguments) {
