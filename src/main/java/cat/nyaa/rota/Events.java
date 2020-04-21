@@ -1,6 +1,7 @@
 package cat.nyaa.rota;
 
 import cat.nyaa.nyaacore.Message;
+import cat.nyaa.rota.config.LoginAction;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,6 +10,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import static cat.nyaa.rota.Utils.pushResourcePack;
 import static cat.nyaa.rota.Utils.remindPlayer;
 
 public class Events implements Listener {
@@ -41,11 +43,26 @@ public class Events implements Listener {
         class CheckTask extends BukkitRunnable{
             @Override
             public void run() {
+                if (!eventPlayer.isOnline()){
+                    return;
+                }
+                LoginAction loginAction = ROTAPlugin.plugin.configMain.loginAction;
                 if (!eventPlayer.isOnGround()){
                     new CheckTask().runTaskLater(ROTAPlugin.plugin, 10);
                     return;
                 }
-                Utils.pushResourcePack(event.getPlayer());
+                switch (loginAction){
+                    case PUSH_AND_HINT:
+                        remindPlayer(eventPlayer);
+                        pushResourcePack(eventPlayer);
+                        break;
+                    case HINT:
+                        remindPlayer(eventPlayer);
+                        break;
+                    case PUSH:
+                        pushResourcePack(eventPlayer);
+                        break;
+                }
             }
         }
         new CheckTask().runTaskLater(ROTAPlugin.plugin, 10);

@@ -5,6 +5,7 @@ import cat.nyaa.nyaacore.configuration.PluginConfigure;
 import cat.nyaa.rota.ROTAPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +43,8 @@ public class ConfigMain extends PluginConfigure {
     public boolean autoUpdate = true;
     @Serializable
     public int autoUpdateInteval = 3600 * 20;
+    @Serializable
+    public LoginAction loginAction = LoginAction.PUSH;
 
     @StandaloneConfig
     public ResourceConfig resourceConfig = new ResourceConfig();
