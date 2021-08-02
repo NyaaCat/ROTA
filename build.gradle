@@ -1,25 +1,36 @@
 plugins {
     id 'java-library'
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
-ext.minecraftVersion = "1.15.2"
+ext.minecraftVersion = "1.17"
+ext.majorVersion = 1
+ext.minorVersion = 1
 
-String majorVersion = 1
-String minorVersion = 0
+sourceCompatibility = 16
+targetCompatibility = 16
 
-String buildNumber = System.getenv("BUILD_NUMBER") == null ? "0"             : System.getenv("BUILD_NUMBER")
+// Supplied by Jenkins
+ext.buildNumber = System.env.BUILD_NUMBER == null ? "x"                : "$System.env.BUILD_NUMBER"
+ext.mavenDirectory = System.env.MAVEN_DIR == null ? "$projectDir/repo" : "$System.env.MAVEN_DIR"
+ext.jdDirectory = System.env.JAVADOCS_DIR == null ? null               : "$System.env.JAVADOCS_DIR"
 
-version =
-        ext.version = "$majorVersion.$minorVersion-$buildNumber"
+group = "cat.nyaa"
+archivesBaseName = "ROTA-mc$minecraftVersion"
+version = "$majorVersion.$minorVersion.$buildNumber".toString()
 
+// extra compile warnings
+compileJava {
+    options.compilerArgs += ["-Xlint:deprecation"]
+    options.encoding = 'UTF-8'
+}
 
 repositories {
-    jcenter()
     mavenCentral()
     maven { name 'Spigot'; url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { name 'Sonatype'; url 'https://oss.sonatype.org/content/groups/public' }
-    maven { name 'sk89q'; url 'http://maven.sk89q.com/artifactory/repo/' }
+    maven { name 'sk89q'; url 'https://maven.sk89q.com/artifactory/repo/' }
     maven { name 'vault-repo'; url 'https://jitpack.io' }
     maven { name 'NyaaCat'; url 'https://ci.nyaacat.com/maven/' }
     maven { name 'EssentialsX'; url 'https://ci.ender.zone/plugin/repository/everything' }
@@ -28,15 +39,22 @@ repositories {
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
-    compileOnly "cat.nyaa:nyaacore:7.2-SNAPSHOT"
-    api 'com.squareup.okhttp3:okhttp:4.4.0'
-    shadow 'com.squareup.okhttp3:okhttp:4.4.0'
+    compileOnly "cat.nyaa:nyaacore:8.1-SNAPSHOT"
+    api("com.squareup.okhttp3:okhttp:4.9.0")
+    shadow 'com.squareup.okhttp3:okhttp:4.9.0'
 }
 
-build{
-    shadowJar
+shadowJar {
+    archiveClassifier.set("shadowed")
 }
 
-shadowJar{
-    archiveName = "ROTA-${version}-shadowed.jar"
+task sourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.java.srcDirs
+}
+
+processResources { // modify version string
+    filesMatching("**/plugin.yml") {
+        expand 'version': project.version
+    }
 }

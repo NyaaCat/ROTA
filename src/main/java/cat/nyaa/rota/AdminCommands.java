@@ -150,6 +150,13 @@ public class AdminCommands extends CommandReceiver {
         PackMeta.Pack pack = packMeta.pack;
         int packFormat = pack.packFormat;
         String versionTarget = "1.0";
+//        1 for versions 1.6.1 - 1.8.9
+//        2 for versions 1.9 - 1.10.2
+//        3 for versions 1.11 - 1.12.2
+//        4 for versions 1.13 - 1.14.4
+//        5 for versions 1.15 - 1.16.1
+//        6 for versions 1.16.2 - 1.16.5
+//        7 for versions 1.17+
         switch (packFormat) {
             case 1:
                 versionTarget = "1.8.8";
@@ -165,6 +172,12 @@ public class AdminCommands extends CommandReceiver {
                 break;
             case 5:
                 versionTarget = "1.15";
+                break;
+            case 6:
+                versionTarget = "1.16";
+                break;
+            case 7:
+                versionTarget = "1.17";
                 break;
         }
         String shaStr = Base64.getEncoder().encodeToString(sha1);
