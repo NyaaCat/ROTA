@@ -83,7 +83,7 @@ public class Utils {
             try {
                 byte[] sha1 = getSha1(input);
                 if (sha1Str.equals(Base64.getEncoder().encodeToString(sha1))){
-                    new Message(I18n.format("update.no_update")).send(sender);
+                    new Message(I18n.format("download.no_update")).send(sender);
                     return null;
                 }else {
                     new Message("update.success");
