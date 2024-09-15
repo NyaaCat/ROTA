@@ -12,9 +12,10 @@ import cat.nyaa.rota.config.ResourceConfig;
 import cat.nyaa.rota.model.PackMeta;
 import cat.nyaa.rota.utils.DownloadUtils;
 import cat.nyaa.rota.utils.MaterialUtils;
-import co.aikar.taskchain.BukkitTaskChainFactory;
-import co.aikar.taskchain.TaskChain;
 import com.google.gson.Gson;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -25,11 +26,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -43,6 +46,7 @@ import static cat.nyaa.rota.Utils.getSha1;
 public class AdminCommands extends CommandReceiver {
     private final Plugin plugin;
     private final ILocalizer i18n;
+    private final Gson gson = GsonComponentSerializer.gson().serializer();
 
     /**
      * @param plugin for logging purpose only
@@ -137,7 +141,7 @@ public class AdminCommands extends CommandReceiver {
                 while ((temp = bufferedReader.readLine()) != null) {
                     sb.append(temp);
                 }
-                packMeta = new Gson().fromJson(sb.toString(), PackMeta.class);
+                packMeta = gson.fromJson(sb.toString(), PackMeta.class);
             }finally {
                 bufferedReader.close();
             }
@@ -166,9 +170,44 @@ public class AdminCommands extends CommandReceiver {
             case 5:
                 versionTarget = "1.15";
                 break;
+            case 6:
+                versionTarget = "1.16.2";
+                break;
+            case 7:
+                versionTarget = "1.17";
+                break;
+            case 8:
+                versionTarget = "1.18";
+                break;
+            case 9:
+                versionTarget = "1.19";
+                break;
+            case 12:
+                versionTarget = "1.19.3";
+                break;
+            case 13:
+                versionTarget = "1.19.4";
+                break;
+            case 15:
+                versionTarget = "1.20";
+                break;
+            case 18:
+                versionTarget = "1.20.2";
+                break;
+            case 22:
+                versionTarget = "1.20.3";
+                break;
+            case 32:
+                versionTarget = "1.20.5";
+                break;
+            case 34:
+                versionTarget = "1.21";
+                break;
         }
         String shaStr = Base64.getEncoder().encodeToString(sha1);
-        msg(sender, "meta.info", versionTarget, pack.description, shaStr);
+        sender.sendMessage(Component.text("Pack version: " + versionTarget, NamedTextColor.DARK_GRAY));
+        sender.sendMessage(Component.text("Description: ", NamedTextColor.DARK_GRAY).append(packMeta.pack.description));
+        sender.sendMessage(Component.text("ShaStr: " + shaStr, NamedTextColor.DARK_GRAY));
         return null;
     }
 
