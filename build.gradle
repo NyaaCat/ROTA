@@ -38,5 +38,7 @@ build{
 }
 
 shadowJar{
-    archiveName = "ROTA-${version}-shadowed.jar"
+    archiveBaseName = "ROTA"
+    archiveVersion = "${version}"
+    archiveClassifier = "shadowed"
 }
