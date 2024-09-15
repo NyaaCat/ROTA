@@ -8,23 +8,21 @@ ext.minecraftVersion = "1.21.1"
 String majorVersion = 2
 String minorVersion = 0
 
-String buildNumber = System.getenv("BUILD_NUMBER") == null ? "0"             : System.getenv("BUILD_NUMBER")
+String buildNumber = System.getenv("BUILD_NUMBER") == null ? "0" : System.getenv("BUILD_NUMBER")
 
-version =
-        ext.version = "$majorVersion.$minorVersion-$buildNumber"
+ext.version = "$majorVersion.$minorVersion-$buildNumber"
 
 
 repositories {
     jcenter()
     mavenCentral()
     maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
-    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
     maven { url = uri("https://repo.essentialsx.net/snapshots/") }
     maven { url = uri("https://ci.nyaacat.com/maven/") }
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:$paperApiName")
+    compileOnly("io.papermc.paper:paper-api:$ext.minecraftVersion")
     compileOnly("cat.nyaa:nyaacore:9.4")
     api 'com.squareup.okhttp3:okhttp:4.4.0'
     shadow 'com.squareup.okhttp3:okhttp:4.4.0'
