@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:$ext.minecraftVersion")
+    compileOnly("io.papermc.paper:paper-api:$minecraftVersion")
     compileOnly("cat.nyaa:nyaacore:9.4")
     api 'com.squareup.okhttp3:okhttp:4.4.0'
     shadow 'com.squareup.okhttp3:okhttp:4.4.0'
