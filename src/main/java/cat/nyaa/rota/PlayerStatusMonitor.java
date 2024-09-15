@@ -32,13 +32,13 @@ public class PlayerStatusMonitor implements Listener {
         PlayerResourcePackStatusEvent.Status status = event.getStatus();
         statusMap.put(event.getPlayer().getUniqueId(), PlayerStatus.valueOf(status.name()));
         if (status.equals(PlayerResourcePackStatusEvent.Status.ACCEPTED)){
-            event.getPlayer().addPotionEffect(PotionEffectType.DAMAGE_RESISTANCE.createEffect(400,5));
+            event.getPlayer().addPotionEffect(PotionEffectType.RESISTANCE.createEffect(400,5));
         }else {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (event.getPlayer().hasPotionEffect(PotionEffectType.DAMAGE_RESISTANCE)) {
-                        event.getPlayer().removePotionEffect(PotionEffectType.DAMAGE_RESISTANCE);
+                    if (event.getPlayer().hasPotionEffect(PotionEffectType.RESISTANCE)) {
+                        event.getPlayer().removePotionEffect(PotionEffectType.RESISTANCE);
                     }
                 }
             }.runTaskLater(ROTAPlugin.plugin, 60);

@@ -25,7 +25,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$minecraftVersion")
     compileOnly("cat.nyaa:nyaacore:9.4")
-    compile "co.aikar:taskchain-bukkit:3.7.2"
+    compileOnly("co.aikar:taskchain-bukkit:3.7.2")
     api 'com.squareup.okhttp3:okhttp:4.4.0'
     shadow 'com.squareup.okhttp3:okhttp:4.4.0'
 }
