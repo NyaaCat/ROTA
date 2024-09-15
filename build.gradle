@@ -17,18 +17,15 @@ version =
 repositories {
     jcenter()
     mavenCentral()
-    maven { name 'Spigot'; url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-    maven { name 'Sonatype'; url 'https://oss.sonatype.org/content/groups/public' }
-    maven { name 'sk89q'; url 'http://maven.sk89q.com/artifactory/repo/' }
-    maven { name 'vault-repo'; url 'https://jitpack.io' }
-    maven { name 'NyaaCat'; url 'https://ci.nyaacat.com/maven/' }
-    maven { name 'EssentialsX'; url 'https://ci.ender.zone/plugin/repository/everything' }
-    maven { name 'aikar';     url 'https://repo.aikar.co/content/groups/aikar/' }
+    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
+    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
+    maven { url = uri("https://repo.essentialsx.net/snapshots/") }
+    maven { url = uri("https://ci.nyaacat.com/maven/") }
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
-    compileOnly "cat.nyaa:nyaacore:9.4"
+    compileOnly("io.papermc.paper:paper-api:$paperApiName")
+    compileOnly("cat.nyaa:nyaacore:9.4")
     api 'com.squareup.okhttp3:okhttp:4.4.0'
     shadow 'com.squareup.okhttp3:okhttp:4.4.0'
 }
