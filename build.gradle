@@ -3,9 +3,9 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-val paperApi = "1.21.1-R0.1-SNAPSHOT"
-val buildNumber = System.getenv("BUILD_NUMBER") == null ? "0" : System.getenv("BUILD_NUMBER")
-val version = "2.0.$buildNumber"
+String paperApi = "1.21.1-R0.1-SNAPSHOT"
+String buildNumber = System.getenv("BUILD_NUMBER") == null ? "0" : System.getenv("BUILD_NUMBER")
+String version = "2.0.$buildNumber"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(21))
