@@ -2,7 +2,7 @@ name: ROTA
 main: cat.nyaa.rota.ROTAPlugin
 description: "ROTA"
 version: ${version}
-depend: [NyaaCore,LangUtils]
+depend: [NyaaCore]
 authors: [ReinWD]
 website: "https://github.com/NyaaCat/ROTA"
 database: false
