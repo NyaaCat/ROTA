@@ -153,57 +153,25 @@ public class AdminCommands extends CommandReceiver {
         }
         PackMeta.Pack pack = packMeta.pack;
         int packFormat = pack.packFormat;
-        String versionTarget = "1.0";
-        switch (packFormat) {
-            case 1:
-                versionTarget = "1.8.8";
-                break;
-            case 2:
-                versionTarget = "1.9";
-                break;
-            case 3:
-                versionTarget = "1.11";
-                break;
-            case 4:
-                versionTarget = "1.13";
-                break;
-            case 5:
-                versionTarget = "1.15";
-                break;
-            case 6:
-                versionTarget = "1.16.2";
-                break;
-            case 7:
-                versionTarget = "1.17";
-                break;
-            case 8:
-                versionTarget = "1.18";
-                break;
-            case 9:
-                versionTarget = "1.19";
-                break;
-            case 12:
-                versionTarget = "1.19.3";
-                break;
-            case 13:
-                versionTarget = "1.19.4";
-                break;
-            case 15:
-                versionTarget = "1.20";
-                break;
-            case 18:
-                versionTarget = "1.20.2";
-                break;
-            case 22:
-                versionTarget = "1.20.3";
-                break;
-            case 32:
-                versionTarget = "1.20.5";
-                break;
-            case 34:
-                versionTarget = "1.21";
-                break;
-        }
+        String versionTarget = switch (packFormat) {
+            case 1 -> "1.8.8";
+            case 2 -> "1.9";
+            case 3 -> "1.11";
+            case 4 -> "1.13";
+            case 5 -> "1.15";
+            case 6 -> "1.16.2";
+            case 7 -> "1.17";
+            case 8 -> "1.18";
+            case 9 -> "1.19";
+            case 12 -> "1.19.3";
+            case 13 -> "1.19.4";
+            case 15 -> "1.20";
+            case 18 -> "1.20.2";
+            case 22 -> "1.20.3";
+            case 32 -> "1.20.5";
+            case 34 -> "1.21";
+            default -> "other";
+        };
         String shaStr = Base64.getEncoder().encodeToString(sha1);
         sender.sendMessage(Component.text("Pack version: " + versionTarget, NamedTextColor.DARK_GRAY));
         sender.sendMessage(Component.text("Description: ", NamedTextColor.DARK_GRAY).append(packMeta.pack.description));
