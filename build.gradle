@@ -3,15 +3,13 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-ext.minecraftVersion = "1.21.1-R0.1-SNAPSHOT"
+val paperApi = "1.21.1-R0.1-SNAPSHOT"
+val buildNumber = System.getenv("BUILD_NUMBER") == null ? "0" : System.getenv("BUILD_NUMBER")
+val version = "$2.0.$buildNumber"
 
-String majorVersion = 2
-String minorVersion = 0
-
-String buildNumber = System.getenv("BUILD_NUMBER") == null ? "0" : System.getenv("BUILD_NUMBER")
-
-ext.version = "$majorVersion.$minorVersion-$buildNumber"
-
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+}
 
 repositories {
     jcenter()
@@ -23,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:$minecraftVersion")
+    compileOnly("io.papermc.paper:paper-api:$paperApi")
     compileOnly("cat.nyaa:nyaacore:9.4")
     compileOnly("co.aikar:taskchain-bukkit:3.7.2")
     api 'com.squareup.okhttp3:okhttp:4.4.0'
@@ -36,6 +34,6 @@ build{
 
 shadowJar{
     archiveBaseName = "ROTA"
-    archiveVersion = "${version}"
+    archiveVersion = "$version"
     archiveClassifier = "shadowed"
 }
