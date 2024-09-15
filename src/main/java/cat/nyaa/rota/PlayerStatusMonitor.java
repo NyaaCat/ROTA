@@ -49,22 +49,22 @@ public class PlayerStatusMonitor implements Listener {
 
     enum PlayerStatus {
         UNKNOWN,
-        /**
-         * The resource pack has been successfully downloaded and applied to the
-         * client.
-         */
-        SUCCESSFULLY_LOADED,
-        /**
-         * The client refused to accept the resource pack.
-         */
+        // https://jd.papermc.io/paper/1.21.1/org/bukkit/event/player/PlayerResourcePackStatusEvent.Status.html
+        ACCEPTED,
+        //The client accepted the pack and is beginning a download of it.
         DECLINED,
-        /**
-         * The client accepted the pack, but download failed.
-         */
+        //The client refused to accept the resource pack.
+        DISCARDED,
+        //The pack was discarded by the client.
+        DOWNLOADED,
+        //The client successfully downloaded the pack.
         FAILED_DOWNLOAD,
-        /**
-         * The client accepted the pack and is beginning a download of it.
-         */
-        ACCEPTED;
+        //The client accepted the pack, but download failed.
+        FAILED_RELOAD,
+        //The client was unable to reload the pack.
+        INVALID_URL,
+        //The pack URL was invalid.
+        SUCCESSFULLY_LOADED
+        //The resource pack has been successfully downloaded and applied to the client.
     }
 }
