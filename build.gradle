@@ -3,9 +3,9 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.4'
 }
 
-ext.minecraftVersion = "1.15.2"
+ext.minecraftVersion = "1.21.1"
 
-String majorVersion = 1
+String majorVersion = 2
 String minorVersion = 0
 
 String buildNumber = System.getenv("BUILD_NUMBER") == null ? "0"             : System.getenv("BUILD_NUMBER")
@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
     compileOnly "org.spigotmc:spigot-api:$minecraftVersion-R0.1-SNAPSHOT"
-    compileOnly "cat.nyaa:nyaacore:7.2-SNAPSHOT"
+    compileOnly "cat.nyaa:nyaacore:9.4"
     api 'com.squareup.okhttp3:okhttp:4.4.0'
     shadow 'com.squareup.okhttp3:okhttp:4.4.0'
 }
