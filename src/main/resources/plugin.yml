@@ -7,6 +7,8 @@ authors: [ReinWD]
 website: "https://github.com/NyaaCat/ROTA"
 database: false
 api-version: 1.21
+libraries:
+  - "com.squareup.okhttp3:okhttp:4.12.0"
 
 commands:
   rota:
