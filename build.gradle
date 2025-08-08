@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-String paperApi = "1.21.1-R0.1-SNAPSHOT"
+String paperApi = "1.21.8-R0.1-SNAPSHOT"
 String buildNumber = System.getenv("BUILD_NUMBER") == null ? "0" : System.getenv("BUILD_NUMBER")
 String version = "2.0.$buildNumber"
 
@@ -21,7 +21,7 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$paperApi")
-    compileOnly("cat.nyaa:nyaacore:9.4")
+    compileOnly("cat.nyaa:nyaacore:9.10")
     compileOnly("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("co.aikar:taskchain-bukkit:3.7.2")
 }

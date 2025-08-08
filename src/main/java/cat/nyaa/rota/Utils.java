@@ -1,15 +1,14 @@
 package cat.nyaa.rota;
 
 import cat.nyaa.nyaacore.Message;
-import cat.nyaa.nyaacore.cmdreceiver.CommandReceiver;
 import cat.nyaa.rota.config.ResourceConfig;
 import cat.nyaa.rota.utils.DownloadUtils;
 import co.aikar.taskchain.BukkitTaskChainFactory;
 import co.aikar.taskchain.TaskChain;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,15 +27,15 @@ public class Utils {
 
     public static void remindPlayer(Player player) {
         PlayerStatusMonitor.PlayerStatus status = PlayerStatusMonitor.getStatus(player);
-        remindMessage = new TextComponent(I18n.format("remind_message"));
+        remindMessage = Component.text(I18n.format("remind_message"));
         new Message("").append(getRemindMessage()).send(player, ROTAPlugin.plugin.configMain.notifyMethod);
-        TextComponent ignoreButton = new TextComponent(I18n.format("ignore_button"));
-        ignoreButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(I18n.format("ignore_hint"))}));
-        ignoreButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rota ignore"));
+        Component ignoreButton = Component.text(I18n.format("ignore_button"));
+        ignoreButton = ignoreButton.hoverEvent(Component.text(I18n.format("ignore_hint")));
+        ignoreButton = ignoreButton.clickEvent(ClickEvent.runCommand("/rota ignore"));
         new Message("").append(ignoreButton).send(player, Message.MessageType.CHAT);
     }
 
-    public static void pushResourcePack(Player player){
+    public static void pushResourcePack(Player player) {
         ResourceConfig resourceConfig = ROTAPlugin.plugin.configMain.resourceConfig;
         String url = resourceConfig.url;
         String sha1Str = resourceConfig.sha1;
@@ -44,12 +43,12 @@ public class Utils {
         player.setResourcePack(url, sha1);
     }
 
-    static TextComponent remindMessage = new TextComponent(I18n.format("remind_message"));
-    static TextComponent ignoreButton = new TextComponent(I18n.format("ignore_button"));
+    static Component remindMessage = Component.text(I18n.format("remind_message"));
+    static Component ignoreButton = Component.text(I18n.format("ignore_button"));
 
-    private static TextComponent getRemindMessage() {
-        remindMessage.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rota accept"));
-        remindMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(I18n.format("remind_hint"))}));
+    private static Component getRemindMessage() {
+        remindMessage = remindMessage.clickEvent(ClickEvent.runCommand("/rota accept"));
+        remindMessage = remindMessage.hoverEvent(HoverEvent.showText(Component.text(I18n.format("remind_hint"))));
         return remindMessage;
     }
 
@@ -82,10 +81,10 @@ public class Utils {
             new Message(I18n.format("download.complete")).send(sender);
             try {
                 byte[] sha1 = getSha1(input);
-                if (sha1Str.equals(Base64.getEncoder().encodeToString(sha1))){
+                if (sha1Str.equals(Base64.getEncoder().encodeToString(sha1))) {
                     new Message(I18n.format("download.no_update")).send(sender);
                     return null;
-                }else {
+                } else {
                     new Message("update.success");
                     return input;
                 }
@@ -97,20 +96,20 @@ public class Utils {
             return null;
         }).abortIfNull()
                 .sync((input -> {
-                    Bukkit.getOnlinePlayers().forEach(player ->{
+                    Bukkit.getOnlinePlayers().forEach(player -> {
                         Utils.remindPlayer(player);
                     });
                     return input;
-                })) .sync(input -> {
-            try {
-                resourceConfig.url = url;
-                resourceConfig.sha1 = Base64.getEncoder().encodeToString(getSha1(input));
-                ROTAPlugin.plugin.configMain.save();
-            } catch (NoSuchAlgorithmException | IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }).execute();
+                })).sync(input -> {
+                    try {
+                        resourceConfig.url = url;
+                        resourceConfig.sha1 = Base64.getEncoder().encodeToString(getSha1(input));
+                        ROTAPlugin.plugin.configMain.save();
+                    } catch (NoSuchAlgorithmException | IOException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }).execute();
     }
 
     public static byte[] getSha1(File input) throws NoSuchAlgorithmException, IOException {
@@ -127,7 +126,7 @@ public class Utils {
     public static TaskChain<File> startDownloadTask(CommandSender sender, String url) {
         return BukkitTaskChainFactory.create(ROTAPlugin.plugin).newChain()
                 .async(input -> {
-                    if (url.equals("") || url.lastIndexOf("/") == -1){
+                    if (url.equals("") || url.lastIndexOf("/") == -1) {
                         new Message(I18n.format("error.invalid_url", url)).send(sender);
                         return null;
                     }
@@ -144,7 +143,7 @@ public class Utils {
     }
 
     public static boolean validate(File latest, String sha1) {
-        if (latest == null){
+        if (latest == null) {
             return false;
         }
         try {
