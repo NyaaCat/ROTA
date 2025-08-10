@@ -154,6 +154,7 @@ public class AdminCommands extends CommandReceiver {
         PackMeta.Pack pack = packMeta.pack;
         int packFormat = pack.packFormat;
         String versionTarget = switch (packFormat) {
+            // https://minecraft.wiki/w/Pack_format 
             case 1 -> "1.8.8";
             case 2 -> "1.9";
             case 3 -> "1.11";
@@ -170,6 +171,11 @@ public class AdminCommands extends CommandReceiver {
             case 22 -> "1.20.3";
             case 32 -> "1.20.5";
             case 34 -> "1.21";
+            case 42 -> "1.21.2";
+            case 46 -> "1.21.4";
+            case 55 -> "1.21.5";
+            case 63 -> "1.21.6";
+            case 64 -> "1.21.8";
             default -> "other";
         };
         String shaStr = Base64.getEncoder().encodeToString(sha1);
