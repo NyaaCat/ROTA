@@ -3,7 +3,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
-String paperApi = "1.21.8-R0.1-SNAPSHOT"
+String paperApi = "1.21.11-R0.1-SNAPSHOT"
 String buildNumber = System.getenv("BUILD_NUMBER") == null ? "0" : System.getenv("BUILD_NUMBER")
 String version = "2.0.$buildNumber"
 
